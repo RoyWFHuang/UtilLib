@@ -13,11 +13,12 @@ INCLUDE_DIR = \
 all:
 	$(CC) -c $(UTIL_LIB_FILE) $(CFLAG) $(INCLUDE_DIR)
 	ar -r $(UTIL_LIB_NAME) *.o
+	mv $(UTIL_LIB_NAME) ./lib/
 	rm -rf *.o
 
 debug:
 	$(CC) -c $(UTIL_LIB_FILE) $(CFLAG) $(INCLUDE_DIR) $(DEBUG_FLAG)
-	ar -r $(UTIL_LIB_NAME) *.o
+	ar -r ./lib/$(UTIL_LIB_NAME) *.o
 	rm -rf *.o
 
 clean:

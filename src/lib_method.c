@@ -181,33 +181,7 @@ int fixup_folder_path(tFixupFolderPath* input_pstruct)
 
     strcpyALL(last_pchar, basename(input_pchar), "/");
     strcpyALL(input_pstruct->ret_pchar, prefix_pchar, last_pchar);
-    /*
-    int len_int = strlen(input_pstruct->path_pchar);
-    if(0 == len_int )
-    {
-        strcpyALL(input_pstruct->ret_pchar, "/");
-        return ERROR_CODE_SUCCESS;
-    }
 
-    char *ret_path_pchar = malloc( sizeof(char[len_int+3]) );
-    char *tmp_path_pchar = malloc( sizeof(char[len_int+3]) );
-    memset(ret_path_pchar, 0, sizeof(char[len_int+3]));
-    memset(tmp_path_pchar, 0, sizeof(char[len_int+3]));
-
-    strcpy(ret_path_pchar, input_pstruct->path_pchar);
-    if('/' != ret_path_pchar[len_int-1])
-        strcat(ret_path_pchar, "/");
-
-    if('/' != ret_path_pchar[0])
-    {
-        strcpy(tmp_path_pchar, ret_path_pchar);
-        strcpy(ret_path_pchar, "/");
-        strcat(ret_path_pchar, tmp_path_pchar);
-    }
-    free(tmp_path_pchar);
-    strcpyALL(input_pstruct->ret_pchar, ret_path_pchar);
-    free(ret_path_pchar);
-    */
     return ERROR_CODE_SUCCESS;
 }
 
@@ -219,60 +193,15 @@ int get_last_folder_name(tLastNameData *inputdata_pstruct)
     char *input_pchar = NULL;
     strcpyALL(input_pchar, inputdata_pstruct->input_path_pchar);
     char *prefix_pchar = dirname(input_pchar);
-    strcpyALL(inputdata_pstruct->prefix_path_pchar, prefix_pchar, "/");
+    if(strcmp("/", prefix_pchar))
+        strcpyALL(inputdata_pstruct->prefix_path_pchar, prefix_pchar, "/");
+    else
+        strcpyALL(inputdata_pstruct->prefix_path_pchar, prefix_pchar);
     free_to_NULL(input_pchar);
     strcpyALL(input_pchar, inputdata_pstruct->input_path_pchar);
     char *last_pchar = basename(input_pchar);
     strcpyALL(inputdata_pstruct->last_name_pchar, last_pchar);
     free_to_NULL(input_pchar);
-/*
-    char *save_buffer_pchar = NULL;
-    char *tmp_str_pchar = NULL;
-    char last_str_achar[1024];
-    const char * const delim_pchar = "/";
-
-    char metadata_path_achar[1024];
-
-    memset(metadata_path_achar, 0, sizeof(char[1024]));
-    memset(last_str_achar, 0, sizeof(char[1024]));
-
-    tmp_str_pchar = strtok_r(
-        inputdata_pstruct->input_path_pchar,
-        delim_pchar,
-        &save_buffer_pchar);
-
-    if( (NULL != tmp_str_pchar) && (0 != strlen(tmp_str_pchar)) )
-    {
-        while(1)
-        {
-            strcpy(last_str_achar, tmp_str_pchar);
-            tmp_str_pchar = strtok_r(
-                NULL,
-                delim_pchar,
-                &save_buffer_pchar);
-
-            if( (NULL == tmp_str_pchar)||(0 == strlen(tmp_str_pchar)) )
-                break;
-
-            strcat(metadata_path_achar, last_str_achar);
-            strcat(metadata_path_achar, "/");
-
-        }
-    }
-
-    tFixupFolderPath ffp_struct;
-    memset(&ffp_struct, 0, sizeof(tFixupFolderPath));
-    ffp_struct.path_pchar = metadata_path_achar;
-    fixup_folder_path(&ffp_struct);
-
-    strcpyALL(inputdata_pstruct->prefix_path_pchar,
-        ffp_struct.ret_pchar);
-    free(ffp_struct.ret_pchar);
-
-    strcpyALL(inputdata_pstruct->last_name_pchar,
-        last_str_achar);
-*/
-
     return ERROR_CODE_SUCCESS;
 }
 
