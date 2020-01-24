@@ -66,6 +66,8 @@ int get_last_folder_name(
 
 char *add_str_to_prefix(const char *prefix_str_pchar, const char *path_pchar);
 
+int recursive_remove_directory(const char *path);
+
 #define autofree_type_ptr \
     __attribute__((cleanup(auto_free_type_ptr)))
 
